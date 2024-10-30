@@ -1,0 +1,95 @@
+<section class="cta-section">
+	<div class="section-wrapper" style="background-image: url(../images/cta-form.jpg)">
+		<div class="textbox light">
+			<h2>Looking for custom products?</h2>
+			<p>Fill out the following form if you need specialized or custom parts. For any other questions, please visit our <a href="/contact">contact</a> page.</p>
+		</div>
+
+		<form id="products-form" class="row">
+			<span class="field-wrapper">
+				<label>Name</label>
+				<input id="name" type="text" name="name" placeholder="Full Name">
+			</span>
+
+			<span class="field-wrapper">
+				<label>Email</label>
+				<input id="email" type="email" name="email" placeholder="email@address.com">
+			</span>
+
+			<span class="field-wrapper">
+				<label>Phone</label>
+				<input id="phone" type="tel" name="phone" placeholder="###-###-####">
+			</span>
+
+			<span class="field-wrapper">
+				<label>Message</label>
+				<textarea id="message" name="message" placeholder="What are you looking for?"></textarea>
+			</span>
+
+			<button class="button" id="product-form-btn" type="submit">Submit</button>
+			<span id="form-message">Thank you! Your message has been sent.</span>
+
+		</form>
+	</div>
+</section>
+		
+<script type="text/javascript">
+
+	$(function() {
+		$('#products-form').submit(function(e) {
+			e.preventDefault();
+				let name = $('#name').val();
+				let email = $('#email').val();
+				let phone = $('#phone').val();
+				let message = $('#message').val();
+				let referral = window.location.href;
+
+			let submitButton = document.getElementById('product-form-btn');
+			
+			let res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+		
+			if (res){
+				submitButton.setAttribute("disabled", "");
+				submitButton.innerText = 'Submitting...'
+
+				let emailContactForm = $.ajax({
+					type: 'POST',
+					url: '/product-form-submit',
+					crossDomain: true,
+					dataType: 'json',
+					data: {
+						name : name,
+						email : email,
+						phone : phone,
+						message : message,
+						referral : referral,
+					},
+				});
+
+				emailContactForm.done(function(response) {
+						// console.log('response: ',response);
+						if (response === 'error') {
+              $("#form-message").text('Submission failed, please contact 713.675.6438 for any assistant').addClass("error");
+
+						} else { // --- Success
+							console.log('email sent!');
+
+							setTimeout(() => {
+								$("#form-message").addClass("success").text('Thank you! Your message has been sent.');
+								submitButton.removeAttribute("disabled");
+								setTimeout(() => {
+										location.reload(true);
+								}, 10000);
+							}, 2000);
+
+						}
+					});
+
+
+			} else {
+				$("#form-message").text('Invalid email.').addClass('error');
+			}
+		})
+	});
+
+</script>

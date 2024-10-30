@@ -1,0 +1,31 @@
+{
+  "name": "app-name",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js & sass --no-source-map --watch public/stylesheets/style.scss public/stylesheets/style.css"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "dotenv": "^6.2.0",
+    "ejs": "^2.6.1",
+    "express": "~4.16.0",
+    "express-sslify": "^1.2.0",
+    "file-type": "^15.0.1",
+    "follow-redirects": "^1.13.0",
+    "fs": "0.0.1-security",
+    "googleapis": "^108.0.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
+    "multiparty": "^4.2.2",
+    "nodemailer": "^6.4.11",
+    "nodemon": "^2.0.20",
+    "raven": "^2.6.4",
+    "safe-buffer": "^5.2.1",
+    "sass": "^1.56.1"
+  }
+}

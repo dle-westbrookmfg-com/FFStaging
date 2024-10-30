@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html data-wf-page="5c05726cf49f2ca2dd717748" data-wf-site="5c05726cf49f2c2fcd717749">
+<head>
+	<title>Request For Quote | Federal Flange</title>
+	<% include ./partials/head.ejs %>
+</head>
+
+<% include ./partials/header-alt.ejs %>
+
+<body id="rfq">
+  <section class="hero hero-2 col col-5" style="background-image: url(../images/rfq-hero.jpg)">
+    <div class="section-wrapper">
+      <div class="textbox light center">
+        <h1>Request For Quote</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section col col-7">
+    <div class="section-wrapper">
+      <form id="rfq-form" name="rfq" class="row">
+        <div class="textbox">
+          <h2>Looking for a quote?</h2>
+          <p>We'll first need to know a little bit about you. Complete the form below to get started!</p>
+        </div>
+        <span class="field-wrapper">
+          <label>Your Name</label>
+          <input id="name" type="text" name="your_name" placeholder="Full Name" required/>
+        </span>
+
+        <span class="field-wrapper">
+          <label>Phone</label>
+          <input id="phone" type="tel" name="your_phone" placeholder="###-###-####"/>
+        </span>
+
+        <span class="field-wrapper">
+          <label>Email</label>
+          <input id="email" type="email" name="your_email" placeholder="email@address.com"/>
+        </span>
+
+        <span class="field-wrapper">
+          <label>Company Name</label>
+          <input id="company-name" type="text" name="company_name" placeholder="Company Name" required/>
+        </span>
+
+        <span class="field-wrapper">
+          <label>Company Type</label>
+          <div class="radio-icons">
+            <label>
+              <input type="radio" name="company_type" value="Wholesale Distribution">
+            </label>
+
+            <label>
+              <input type="radio" name="company_type" value="OEM">
+            </label>
+
+            <label>
+              <input type="radio" name="company_type" value="Fabrication">
+            </label>
+
+            <label>
+              <input type="radio" name="company_type" value="End User">
+            </label>
+          </div>
+        </span>
+
+        <span class="field-wrapper">
+          <label>Attach File</label>
+          <input id="file" type="file" name="file" multiple />
+        </span>
+
+        <span class="field-wrapper">
+          <label>RFQ Description</label>
+          <textarea id="description" placeholder="RFQ Description"></textarea>
+        </span>
+        <button id="quote-sumbit-btn" class="button red" type="submit">Submit</button>
+        <span id="form-message">Thank you! Your message has been sent.</span>
+
+      </form>
+    </div>
+  </section>
+
+</body>
+
+<script type="text/javascript">
+
+  $(function() {
+    $('#rfq-form').submit(async(e) => {
+      e.preventDefault();
+
+      let name = $('#name').val();
+      let email = $('#email').val();
+      let phone = $('#phone').val();
+      let companyName = $('#company-name').val();
+      let companyType = document.forms.rfq.querySelector('input[name=company_type]:checked').value;
+      let file = $('#file').prop('files');
+      let description = $('#description').val();
+      let submitButton = document.getElementById('quote-sumbit-btn');
+      let res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+      let attachments = [];
+
+      const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+
+      for (let i = 0; i < file.length; i++){
+        attachments.push({
+          path: await toBase64(file[i])
+        })
+      }
+
+      console.log("attachments: ", attachments)
+
+      if (res){
+        submitButton.setAttribute("disabled", "");
+        submitButton.innerText = 'Submitting...'
+
+        let emailContactForm = $.ajax({
+          type: 'POST',
+          url: '/quote-contact-form-submit',
+          crossDomain: true,
+          // processData: false,
+          // contentType: false,
+          dataType: 'json',
+          data: {
+            name : name,
+            email : email,
+            phone : phone,
+            companyName : companyName,
+            companyType : companyType,
+            description : description,
+            file: attachments
+          },
+        });
+
+        emailContactForm.done(function(response) {
+						// console.log('response: ',response);
+						if (response === 'error') {
+              $("#form-message").text('Submission failed, please contact 713.675.6438 for any assistant').addClass("error");
+
+						} else { // --- Success
+							console.log('email sent!');
+
+							setTimeout(() => {
+								$("#form-message").addClass("success").text('Thank you! Your message has been sent.');
+								submitButton.removeAttribute("disabled");
+								setTimeout(() => {
+										location.reload(true);
+								}, 10000);
+							}, 2000);
+
+						}
+					});
+
+      } else {
+        $("#form-message").text('Invalid email.').addClass('error');
+      }
+    })
+  });
+  </script>
+
+<% include ./partials/footer.ejs %>

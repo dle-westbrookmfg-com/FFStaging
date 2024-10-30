@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html data-wf-page="5c05726cf49f2ca2dd717748" data-wf-site="5c05726cf49f2c2fcd717749">
+<head>
+	<title>Contact Us | Federal Flange</title>
+	<% include ./partials/head.ejs %>
+</head>
+
+<% include ./partials/header.ejs %>
+
+<body id="contact">
+
+  <section class="hero">
+    <div class="section-wrapper">
+      <div class="col col-8 map-col">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3460.779110322886!2d-95.44759438488963!3d29.841797081956464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c61574e4c803%3A0xce1959638b1668a0!2sFederal%20Flange!5e0!3m2!1sen!2sus!4v1600271671218!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+      </div>
+
+      <div class="col col-4 contact-col">
+        <div class="contact-form-card">
+          <form id="contact-form" class="row">
+            <div class="textbox">
+              <h1>Contact Us</h1>
+              <p>Need more details or want to be contacted by a sales representative?</p>
+            </div>
+            <span class="field-wrapper">
+              <label>Name *</label>
+              <input id="name" type="text" name="name" required>
+            </span>
+
+            <span class="field-wrapper">
+              <label>Email</label>
+              <input id="email" type="email" name="email">
+            </span>
+
+            <span class="field-wrapper">
+              <label>Phone</label>
+              <input id="phone" type="phone" name="phone">
+            </span>
+
+            <span class="field-wrapper">
+              <label>Message</label>
+              <input id="message" type="text" name="message">
+            </span>
+
+            <button id="contact-form-btn" type="submit" class="button red">Submit</button>
+            <span id="form-message">Thank you! Your message has been sent.</span>
+
+          </form>
+        </div>
+
+        <div class="contact-info-card">
+          <div>
+            <h5>Address</h5>
+            <p><a href="https://www.google.com/maps/place/Federal+Flange/@29.8417971,-95.4475944,17z/data=!3m1!4b1!4m5!3m4!1s0x8640c61574e4c803:0xce1959638b1668a0!8m2!3d29.8417971!4d-95.4454057" target="_blank">4014 Pinemont Dr<br/> Houston, TX 77018</a></p>
+
+            <h5>Shipping/Receiving</h5>
+            <p><a href="https://www.google.com/maps?q=3945+Creekmont+Dr+Houston,+TX+77091&um=1&ie=UTF-8&sa=X&ved=2ahUKEwj6loe_yf_rAhUDI6wKHSZXCwwQ_AUoAXoECAwQAw" target="_blank">3945 Creekmont Dr<br/> Houston, TX 77091</a></p>
+          </div>
+          <div>
+            <h5>Hours</h5>
+            <p>Monday-Friday: <br/>8am-5pm</p>
+          </div>
+          <div>
+            <h5>Mailing Address</h5>
+            <p>PO Box 925097<br/>Houston, Texas 77292-5097</p>
+          </div>
+          <div>
+            <h5>Phone</h5>
+            <p>Phone: <a href="tel:713.681.0606">713.681.0606</a></p>
+            <p>Toll-Free: <a href="tel:800.231.0150">800.231.0150</a></p>
+            <p>Fax: <a href="tel:713.681.3005">713.681.3005</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="text/javascript">
+
+    $(function() {
+      $('#contact-form').submit(function(e) {
+        e.preventDefault();
+          let name = $('#name').val();
+          let email = $('#email').val();
+          let phone = $('#phone').val();
+          let message = $('#message').val();
+  
+        let submitButton = document.getElementById('contact-form-btn');
+        
+        let res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+      
+        if (res){
+          submitButton.setAttribute("disabled", "");
+          submitButton.innerText = 'Submitting...'
+  
+					let emailContactForm = $.ajax({
+            type: 'POST',
+            url: '/main-contact-form-submit',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+              name : name,
+              email : email,
+              phone : phone,
+              message : message,
+            },
+          });
+  
+          emailContactForm.done(function(response) {
+						if (response === 'error') {
+              $("#form-message").text('Submission failed, please contact 713.675.6438 for any assistant').addClass("error");
+
+						} else { // --- Success
+							console.log('email sent!');
+
+							setTimeout(() => {
+								$("#form-message").addClass("success").text('Thank you! Your message has been sent.');
+								submitButton.removeAttribute("disabled");
+								setTimeout(() => {
+										location.reload(true);
+								}, 10000);
+							}, 2000);
+
+						}
+					});
+
+        } else {
+					$("#form-message").text('Invalid email.').addClass('error');
+        }
+      })
+    });
+  
+  </script>
+
+</body>
+
+<% include ./partials/footer.ejs %>
