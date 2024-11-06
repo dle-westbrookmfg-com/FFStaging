@@ -6,6 +6,7 @@ const fs = require('fs');
 const fileType = require('file-type');
 const { google } = require('googleapis');
 
+
 const env = process.env.ENVIRONMENT;
 console.log('ENVIRONMENT ======= ', env);
 
@@ -60,16 +61,17 @@ router.get('/contact', function(req, res, next) {
 let buffer;
 
 // --- Forms
-const emailFrom = "westbrook.group@scriptstone.com";
+const emailFrom = "webrequest@westbrookmfg.com";
 const emailProdPass = process.env.EMAIL_APP_PASS;
 
-const emailToProspects = "prospects@scriptstone.com";
-const emailDevTo = "devops@lapraim.com";
-const emailCCTo = "johnm@westbrookmfg.com";
+const emailToProspects = "webrequest@westbrookmfg.com";
+const emailDevTo = "danle2072@gmail.com";
+const emailCCTo = "dle@westbrookmfg.com";
 // const emailDevPass = process.env.EMAIL_dev_PASS;
 // const emailPrevFrom = "manufacturingwestbrook@gmail.com";
 // const emailProdFrom = "westbrookmfg@outlook.com";
 // const emailProdPass = process.env.EMAIL_outlook_PASS;
+
 
 // const oAuth2Client = new google.auth.OAuth2(
 //   process.env.OAUTH_CLIENT_ID,
@@ -98,10 +100,10 @@ async function sendMail(mailForCompany, mailForConfirm, res) {
     const transport = nodemailer.createTransport({
       pool: true,
       maxConnections: 5,
-      service: 'gmail',
+      service: 'SendGrid',
       auth: {
-        user: emailFrom,
-        pass: emailProdPass,
+        user: 'apikey',
+        pass: process.env.SENDGRID_API_KEY,
       },
     });
 
