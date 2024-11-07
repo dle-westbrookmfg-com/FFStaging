@@ -61,11 +61,11 @@ router.get('/contact', function(req, res, next) {
 let buffer;
 
 // --- Forms
-const emailFrom = "webrequest@westbrookmfg.com";
+const emailFrom = "webrequest@federalconnects.com";
 const emailProdPass = process.env.EMAIL_APP_PASS;
 
-const emailBCC = "webrequest@westbrookmfg.com";
-const emailDevTo = "dev@westbrookmfg.com";
+const emailBCC = "webrequest@federalconnects.com";
+const emailDevTo = "dev@federalconnects.com";
 const emailTo = 'quotes@federalconnects.com';
 // const emailDevPass = process.env.EMAIL_dev_PASS;
 // const emailPrevFrom = "manufacturingwestbrook@gmail.com";
@@ -163,8 +163,6 @@ router.post('/main-contact-form-submit', function(req, res) {
   var email = req.body.email
   var phone = req.body.phone
   var message = req.body.message
-
-  var emailTo = 'quotes@federalconnects.com';
   var emailText = `
   <b>Name</b> : ${name} <br/>
   <b>Email</b> : ${email} <br/>
@@ -176,7 +174,6 @@ router.post('/main-contact-form-submit', function(req, res) {
   var mailForCompany = {
     from: emailFrom,
     to: env === 'production' ? [emailTo] : emailDevTo,
-    cc: env === 'production' ? [emailCCTo] : "",
     bcc: emailBCC,
     subject: 'Federal Flange Main Contact Form',
     html: emailText
