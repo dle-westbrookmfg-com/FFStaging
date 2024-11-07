@@ -64,9 +64,9 @@ let buffer;
 const emailFrom = "webrequest@westbrookmfg.com";
 const emailProdPass = process.env.EMAIL_APP_PASS;
 
-const emailToProspects = "webrequest@westbrookmfg.com";
-const emailDevTo = "danle2072@gmail.com";
-const emailCCTo = "dle@westbrookmfg.com";
+const emailBCC = "webrequest@westbrookmfg.com";
+const emailDevTo = "dev@westbrookmfg.com";
+const emailTo = 'quotes@federalconnects.com';
 // const emailDevPass = process.env.EMAIL_dev_PASS;
 // const emailPrevFrom = "manufacturingwestbrook@gmail.com";
 // const emailProdFrom = "westbrookmfg@outlook.com";
@@ -137,7 +137,6 @@ router.post('/home-contact-form-submit', function(req, res) {
   var email = req.body.email
   var message = req.body.message
 
-  var emailTo = 'quotes@federalconnects.com';
   var emailText = `
   <b>Name</b> : ${name} <br/>
   <b>Email</b> : ${email} <br/>
@@ -148,8 +147,7 @@ router.post('/home-contact-form-submit', function(req, res) {
   var mailForCompany = {
     from: emailFrom,
     to: env === 'production' ? [emailTo] : emailDevTo,
-    cc: env === 'production' ? [emailCCTo] : "",
-    bcc: emailToProspects,
+    bcc: emailBCC,
     subject: 'Federal Flange Home Contact Form',
     html: emailText
   };
@@ -179,7 +177,7 @@ router.post('/main-contact-form-submit', function(req, res) {
     from: emailFrom,
     to: env === 'production' ? [emailTo] : emailDevTo,
     cc: env === 'production' ? [emailCCTo] : "",
-    bcc: emailToProspects,
+    bcc: emailBCC,
     subject: 'Federal Flange Main Contact Form',
     html: emailText
   };
@@ -199,7 +197,6 @@ router.post('/quote-contact-form-submit', (req, res) => {
   let file = req.body.file
   let description = req.body.description
 
-  let emailTo = 'quotes@federalconnects.com';
   let emailText = `
     <b>Name</b> : ${name} <br/>
     <b>Email</b> : ${email} <br/>
@@ -213,8 +210,7 @@ router.post('/quote-contact-form-submit', (req, res) => {
   var mailForCompany = {
     from: emailFrom,
     to: env === 'production' ? [emailTo] : emailDevTo,
-    cc: env === 'production' ? [emailCCTo] : "",
-    bcc: emailToProspects,
+    bcc: emailBCC,
     subject: 'Federal Flange - Quote Request Form - New Prospect Inquiry Submitted via Website',
     html: emailText,
     attachments: file
@@ -233,7 +229,6 @@ router.post('/product-form-submit', function(req, res) {
   let message = req.body.message
   let referral = req.body.referral
 
-  let emailTo = 'quotes@federalconnects.com';
   let emailText = `
   <b>Name</b> : ${name} <br/>
   <b>Email</b> : ${email} <br/>
@@ -248,8 +243,7 @@ router.post('/product-form-submit', function(req, res) {
   var mailForCompany = {
     from: emailFrom,
     to: env === 'production' ? [emailTo] : emailDevTo,
-    cc: env === 'production' ? [emailCCTo] : "",
-    bcc: emailToProspects,
+    bcc: emailBCC,
     subject: 'Federal Flange - Product Form - New Prospect Inquiry Submitted via Website',
     html: emailText,
   };
