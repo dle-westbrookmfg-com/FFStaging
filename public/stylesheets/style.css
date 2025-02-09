@@ -736,10 +736,10 @@ article.card.download-card a.pdf:before {
 header {
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   width: 100%;
-  height: 80px;
-  background-color: transparent;
+  height: 90px;
+  background-color: transparent; /* original: transparent*/
   display: -webkit-flex;
   display: flex;
   -webkit-align-items: center;
@@ -753,23 +753,29 @@ header {
   transition: all 0.2s ease-in-out;
 }
 header.scrolled {
-  height: 70px;
+  height: 80px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  background-color: #19345f;
+  /* color: white; */
+  
 }
 header.scrolled a#header-logo-link {
   width: 100px;
 }
-header.alt, header.scrolled {
-  background-color: white;
+header.alt {
+   background-color: #19345f; /* original: transparent */
 }
-header.alt a#header-logo-link svg *, header.scrolled a#header-logo-link svg * {
+
+header.alt a#header-logo-link img *, header.scrolled a#header-logo-link img * {
   fill: #0058A9;
 }
 header.alt span#ham-menu span.ham-line, header.scrolled span#ham-menu span.ham-line {
   background-color: #0058A9;
 }
 header.alt nav#header-page-links > a:not(.button), header.scrolled nav#header-page-links > a:not(.button) {
-  color: #19345f;
+  background-color: #19345f;
+  color: white;
 }
 header.alt nav#header-page-links > a:not(.button):hover:after, header.scrolled nav#header-page-links > a:not(.button):hover:after {
   background-color: #19345f;
@@ -905,6 +911,7 @@ header nav#header-page-links {
 }
 header nav#header-page-links > a {
   text-transform: uppercase;
+  color: white;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 1px;
@@ -1423,7 +1430,7 @@ body#about #about-hero .col:nth-child(3) {
 body#products #product-options {
   margin-top: 0;
   padding-top: 80px;
-  background-color: black;
+  background-color: #19345f; /* original: black*/
 }
 body#products #product-options .section-wrapper {
   padding: 0;
@@ -1627,9 +1634,9 @@ body#contact .hero {
   height: 100vh;
   min-height: 960px;
   padding-top: 80px;
-  background: black;
-  background: -webkit-linear-gradient(270deg, black, #5e657b);
-  background: linear-gradient(-180deg, black, #5e657b);
+  background: #19345f; /* original: black */
+  /* background: -webkit-linear-gradient(270deg, black, #5e657b);
+  background: linear-gradient(-180deg, black, #5e657b); */ 
 }
 body#contact .hero .section-wrapper {
   padding: 20px;
@@ -1891,9 +1898,9 @@ footer .footer-bottom p#credit a {
     padding: 80px 20px 40px;
     z-index: -1;
   }
-  header #header-wrapper {
+  /* header #header-wrapper {
     padding: 0 40px;
-  }
+  } */
   header a#header-logo-link {
     width: 130px;
   }
@@ -2220,9 +2227,9 @@ footer .footer-bottom p#credit a {
     padding-left: 20px !important;
     padding-right: 20px !important;
   }
-  header #header-wrapper {
+  /* header #header-wrapper {
     padding: 0 20px;
-  }
+  } */
   body#about #about-hero:before, body#about #about-hero:after {
     height: 240px;
   }
