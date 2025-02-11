@@ -1798,7 +1798,7 @@ footer .footer-banner .logos-grid {
   -moz-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 30px;
 }
 footer .footer-banner .logos-grid figure.img-wrapper {
